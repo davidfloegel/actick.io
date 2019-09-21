@@ -86,11 +86,24 @@ export const StateProvider = ({ reducer, initialState, children }) => {
     scenariosRef.update(update);
   };
 
+  const onDeleteItem = id => {
+    let deleteMe = {};
+    _.forEach(data, (v, k) => {
+      if (v.id === id) {
+        deleteMe = k;
+      }
+    });
+
+    console.log(deleteMe);
+    // scenariosRef.remove(deleteMe);
+  };
+
   const context = {
     sections,
     onAddScenario,
     onUpdateSectionName,
-    onUpdateItem
+    onUpdateItem,
+    onDeleteItem
   };
 
   return (

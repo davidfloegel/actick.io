@@ -127,7 +127,15 @@ const Textfield = ({ initialValue, onSave, ...rest }) => {
   );
 };
 
-const Item = ({ id, openItem, isOpen, onClick, scenario, onUpdateItem }) => (
+const Item = ({
+  id,
+  openItem,
+  isOpen,
+  onClick,
+  scenario,
+  onUpdateItem,
+  onDelete
+}) => (
   <ItemItem isOpen={isOpen}>
     <ItemRow
       onClick={onClick}
@@ -193,7 +201,9 @@ const Item = ({ id, openItem, isOpen, onClick, scenario, onUpdateItem }) => (
           </tbody>
         </DetailsTable>
 
-        <Button type="dangerLink">Delete Scenario</Button>
+        <Button type="dangerLink" onClick={onDelete}>
+          Delete Scenario
+        </Button>
       </Details>
     )}
   </ItemItem>
@@ -203,7 +213,8 @@ export default ({
   scenarios,
   sectionName,
   onUpdateSectionName,
-  onUpdateItem
+  onUpdateItem,
+  onDeleteItem
 }) => {
   const [openItem, setOpenItem] = useState(null);
 
@@ -240,6 +251,7 @@ export default ({
           }
           scenario={scenario}
           onUpdateItem={d => onUpdateItem(scenario.id, d)}
+          onDelete={() => onDeleteItem(scenario.id)}
         />
       ))}
       <Footer>

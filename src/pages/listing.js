@@ -9,7 +9,8 @@ export default () => {
     sections,
     onUpdateSectionName,
     onAddScenario,
-    onUpdateItem
+    onUpdateItem,
+    onDeleteItem
   } = useStateValue();
 
   return (
@@ -21,6 +22,7 @@ export default () => {
           sectionName={sectionName}
           onUpdateSectionName={onUpdateSectionName}
           onUpdateItem={onUpdateItem}
+          onDeleteItem={onDeleteItem}
         />
       ))}
 
