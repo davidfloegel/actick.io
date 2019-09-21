@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import * as dateFns from "date-fns";
 
-import { useStateValue } from '../state'
+import { useStateValue } from "../state";
 import Button from "./button";
 import Textarea from "./textarea";
 import Input from "./input";
@@ -174,19 +174,22 @@ const Item = ({ id, openItem, isOpen, onClick, scenario }) => (
   </ItemItem>
 );
 
-export default ({ scenarios, sectionName }) => {
+export default ({ scenarios, sectionName, onUpdateSectionName }) => {
   const [openItem, setOpenItem] = useState(null);
-  const [title, setTitle] = useState('');
-  const { onAddScenario } = useStateValue()
+  const [title, setTitle] = useState("");
+  const { onAddScenario } = useStateValue();
 
-  const onUpdateTitle = (e) =>  setTitle(e.target.value);
+  const onUpdateTitle = e => setTitle(e.target.value);
 
-  const onAdd = () => onAddScenario(title, sectionName)
+  const onAdd = () => onAddScenario(title, sectionName);
 
   return (
     <Section>
       <Header>
-        <InlineEditInput value={sectionName} onSave={v => alert(v)}>
+        <InlineEditInput
+          value={sectionName}
+          onSave={v => onUpdateSectionName(sectionName, v)}
+        >
           <Title>{sectionName}</Title>
         </InlineEditInput>
         <Count>4 / 10</Count>
@@ -216,7 +219,11 @@ export default ({ scenarios, sectionName }) => {
       ))}
       <Footer>
         <AddStatusIcon className="fa fa-plus-circle" />
-        <Input placeholder="Add a new item" value={title} onChange={onUpdateTitle}/>
+        <Input
+          placeholder="Add a new item"
+          value={title}
+          onChange={onUpdateTitle}
+        />
         <button onClick={onAdd}>Add</button>
       </Footer>
     </Section>

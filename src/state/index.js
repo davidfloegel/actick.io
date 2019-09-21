@@ -13,26 +13,29 @@ const STATUS = {
 export const StateContext = createContext();
 
 export const StateProvider = ({ reducer, initialState, children }) => {
+  const [data, setData] = useState();
   const [sections, setSections] = useState([]);
   const [totScenarios, setTotScenarios] = useState(0);
 
   useEffect(() => {
-    const unsubscribe = () => scenariosRef.on("value", snapshot => {
-      const result = snapshot.val();
+    const unsubscribe = () =>
+      scenariosRef.on("value", snapshot => {
+        const result = snapshot.val();
 
-      if (result === null) {
-        return null;
-      }
+        if (result === null) {
+          return null;
+        }
 
-      const value = Object.keys(result).map(key => {
-        return result[key];
+        const value = Object.keys(result).map(key => {
+          return result[key];
+        });
+
+        setTotScenarios(value.length);
+
+        const sections = _.groupBy(value, "section");
+        setSections(sections);
+        setData(result);
       });
-
-      setTotScenarios(value.length);
-
-      const sections = _.groupBy(value, 'section')
-      setSections(sections)
-    })
 
     unsubscribe();
   }, []);
@@ -42,22 +45,38 @@ export const StateProvider = ({ reducer, initialState, children }) => {
       id: `S${totScenarios + 1}`,
       status: 1,
       description,
-      lastUpdated: (new Date()).toUTCString(),
-      steps: '',
-      testData: '',
-      expectedOutcome: '',
-      actualOutcome: '',
+      lastUpdated: new Date().toUTCString(),
+      steps: "",
+      testData: "",
+      expectedOutcome: "",
+      actualOutcome: "",
       section: sectionName,
-      projectId: '1',
-    }
+      projectId: "1"
+    };
 
     scenariosRef.push().set(newScenario);
-  }
-  
+  };
+
+  const onUpdateSectionName = (oldSectionName, newSectionName) => {
+    const itemsForSection = _.filter(data, { section: oldSectionName });
+
+    let update = {};
+    _.forEach(data, (v, k) => {
+      if (v.section === oldSectionName) {
+        update[k] = {
+          ...v,
+          section: newSectionName
+        };
+      }
+    });
+
+    scenariosRef.update(update);
+  };
 
   const context = {
     sections,
-    onAddScenario
+    onAddScenario,
+    onUpdateSectionName
   };
 
   return (
