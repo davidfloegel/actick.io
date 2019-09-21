@@ -2,11 +2,10 @@ import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import * as dateFns from "date-fns";
 
-import { useStateValue } from '../state'
 import Button from "./button";
 import Textarea from "./textarea";
-import Input from "./input";
 import InlineEditInput from "./inlineEditInput";
+import AddNewItem from './addNewItem'
 
 import { STATUS } from "../state";
 
@@ -104,10 +103,6 @@ const StatusIcon = styled.i`
   `};
 `;
 
-const AddStatusIcon = styled.i`
-  margin-right: 15px;
-`;
-
 const Footer = styled(Header)``;
 
 const ICON_FOR_STATUS = {
@@ -176,12 +171,6 @@ const Item = ({ id, openItem, isOpen, onClick, scenario }) => (
 
 export default ({ scenarios, sectionName }) => {
   const [openItem, setOpenItem] = useState(null);
-  const [title, setTitle] = useState('');
-  const { onAddScenario } = useStateValue()
-
-  const onUpdateTitle = (e) =>  setTitle(e.target.value);
-
-  const onAdd = () => onAddScenario(title, sectionName)
 
   return (
     <Section>
@@ -215,9 +204,7 @@ export default ({ scenarios, sectionName }) => {
         />
       ))}
       <Footer>
-        <AddStatusIcon className="fa fa-plus-circle" />
-        <Input placeholder="Add a new item" value={title} onChange={onUpdateTitle}/>
-        <button onClick={onAdd}>Add</button>
+        <AddNewItem sectionName={sectionName} />
       </Footer>
     </Section>
   );
