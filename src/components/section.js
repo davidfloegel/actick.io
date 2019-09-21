@@ -7,6 +7,7 @@ import Button from "./button";
 import Textarea from "./textarea";
 import InlineEditInput from "./inlineEditInput";
 import AddNewItem from "./addNewItem";
+import Status from './status'
 
 const Section = styled.div`
   border: 1px solid #eee;
@@ -95,22 +96,9 @@ const DetailsTable = styled.table`
   }
 `;
 
-const StatusIcon = styled.i`
-  ${({ type, color }) => css`
-    font-size: 18px;
-    color: ${color};
-  `};
-`;
 
 const Footer = styled(Header)``;
 
-const ICON_FOR_STATUS = {
-  1: { icon: "fa fa-hourglass-half", color: "#f1c40f" },
-  2: { icon: "far fa-stopwatch", color: "#3498db" },
-  3: { icon: "far fa-check-circle", color: "#2ecc71" },
-  4: { icon: "far fa-times-circle", color: "#e74c3c" },
-  5: { icon: "far fa-redo", color: "#9b59b6" }
-};
 
 const Textfield = ({ initialValue, onSave, ...rest }) => {
   const [value, setValue] = useState(initialValue);
@@ -138,18 +126,16 @@ const Item = ({
 }) => (
   <ItemItem isOpen={isOpen}>
     <ItemRow
-      onClick={onClick}
       isOpen={isOpen}
       fade={openItem && openItem !== id}
     >
       <Col width="10">{id}</Col>
       <Col width="50" style={{ textAlign: "center" }}>
-        <StatusIcon
-          color={ICON_FOR_STATUS[scenario.status].color}
-          className={ICON_FOR_STATUS[scenario.status].icon}
-        />
+        <Status status={scenario.status} />
+        
       </Col>
-      <Col width="auto">{scenario.description}</Col>
+      
+      <Col width="auto" onClick={onClick}>{scenario.description}</Col>
       <Col width="200">
         {dateFns.format(new Date(scenario.lastUpdated), "dd.MM.yyyy HH:mm")}
       </Col>
