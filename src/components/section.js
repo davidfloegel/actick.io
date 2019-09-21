@@ -112,7 +112,22 @@ const ICON_FOR_STATUS = {
   5: { icon: "far fa-redo", color: "#9b59b6" }
 };
 
-const Item = ({ id, openItem, isOpen, onClick, scenario }) => (
+const Textfield = ({ initialValue, onSave, ...rest }) => {
+  const [value, setValue] = useState(initialValue);
+
+  return (
+    <Textarea
+      placeholder={rest.placeholder}
+      value={value}
+      onChange={e => setValue(e.target.value)}
+      onBlur={() => {
+        onSave(value);
+      }}
+    />
+  );
+};
+
+const Item = ({ id, openItem, isOpen, onClick, scenario, onUpdateItem }) => (
   <ItemItem isOpen={isOpen}>
     <ItemRow
       onClick={onClick}
@@ -138,25 +153,41 @@ const Item = ({ id, openItem, isOpen, onClick, scenario }) => (
             <tr>
               <th>Steps</th>
               <td>
-                <Textarea placeholder="Enter replication steps..." />
+                <Textfield
+                  initialValue={scenario.steps}
+                  onSave={v => onUpdateItem({ steps: v })}
+                  placeholder="Enter replication steps..."
+                />
               </td>
             </tr>
             <tr>
               <th>Test Data</th>
               <td>
-                <Textarea placeholder="Enter any test data info required for this test" />
+                <Textfield
+                  initialValue={scenario.testData}
+                  onSave={v => onUpdateItem({ testData: v })}
+                  placeholder="Is any test data (i.e. accounts) needed to replicate?"
+                />
               </td>
             </tr>
             <tr>
               <th>Expected Outcome</th>
               <td>
-                <Textarea placeholder="What is the expected outcome?" />
+                <Textfield
+                  initialValue={scenario.expectedOutcome}
+                  onSave={v => onUpdateItem({ expectedOutcome: v })}
+                  placeholder="What is the expected outcome?"
+                />
               </td>
             </tr>
             <tr>
               <th>Actual Outcome</th>
               <td>
-                <Textarea placeholder="What was the actual outcome?" />
+                <Textfield
+                  initialValue={scenario.actualOutcome}
+                  onSave={v => onUpdateItem({ actualOutcome: v })}
+                  placeholder="What was the actual outcome?"
+                />
               </td>
             </tr>
           </tbody>
@@ -168,7 +199,12 @@ const Item = ({ id, openItem, isOpen, onClick, scenario }) => (
   </ItemItem>
 );
 
-export default ({ scenarios, sectionName, onUpdateSectionName }) => {
+export default ({
+  scenarios,
+  sectionName,
+  onUpdateSectionName,
+  onUpdateItem
+}) => {
   const [openItem, setOpenItem] = useState(null);
 
   return (
@@ -203,6 +239,7 @@ export default ({ scenarios, sectionName, onUpdateSectionName }) => {
               : setOpenItem(scenario.id)
           }
           scenario={scenario}
+          onUpdateItem={d => onUpdateItem(scenario.id, d)}
         />
       ))}
       <Footer>
