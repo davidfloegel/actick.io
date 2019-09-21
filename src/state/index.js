@@ -2,17 +2,6 @@ import _ from 'lodash'
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import { scenariosRef } from '../config/firebase';
 
-export const StateContext = createContext();
-
-
-// const newSection = {
-//   title: 'Amazing',
-//   description: '',
-//   items: [
-//     { title}
-//   ],
-// }
-
 const STATUS = {
   1: 'To do',
   2: 'In Test',
@@ -21,23 +10,12 @@ const STATUS = {
   5: 'Retest',
 }
 
-const newScenario = {
-  id: 'S1',
-  status: STATUS[1],
-  description: 'Description',
-  lastUpdated: new Date(),
-  steps: 'Free text',
-  testData: 'Free text test data',
-  expectedOutcome: 'beautiful',
-  actualOutcome: 'awful',
-  section: 'Amazing Section',
-  projectId: '2',
-}
+export const StateContext = createContext();
 
-// _.groupBy(items, 'section')
 
 export const StateProvider = ({ reducer, initialState, children }) => {
   const [sections, setSections] = useState([]);
+  const [totScenarios, setTotScenarios] = useState(0);
 
   useEffect(() => {
     const unsubscribe = () =>  scenariosRef.on("value", snapshot => {
@@ -52,17 +30,32 @@ export const StateProvider = ({ reducer, initialState, children }) => {
         return result[key];
       });
 
+      setTotScenarios(value.length);
+
       const sections = _.groupBy(value, 'section')
-
-      console.log(sections)
-
       setSections(sections)
     })
 
     unsubscribe();
   }, []);
 
-  const onAddScenario = () => scenariosRef.push().set(newScenario);
+  const onAddScenario = (description, sectionName) => {
+    const newScenario = {
+      id: `S${totScenarios + 1}`,
+      status: 1,
+      description,
+      lastUpdated: (new Date()).toUTCString(),
+      steps: '',
+      testData: '',
+      expectedOutcome: '',
+      actualOutcome: '',
+      section: sectionName,
+      projectId: '1',
+    }
+
+    scenariosRef.push().set(newScenario);
+  }
+  
 
   const context = {
     sections,

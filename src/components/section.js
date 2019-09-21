@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
 
+import { useStateValue } from '../state'
 import Button from "./button";
 import Textarea from "./textarea";
 import Input from "./input";
@@ -160,14 +161,20 @@ const Item = ({ id, openItem, isOpen, onClick }) => (
   </ItemItem>
 );
 
-export default ({ scenarios, title }) => {
+export default ({ scenarios, sectionName }) => {
   const [openItem, setOpenItem] = useState(null);
+  const [title, setTitle] = useState('');
+  const { onAddScenario } = useStateValue()
+
+  const onUpdateTitle = (e) =>  setTitle(e.target.value);
+
+  const onAdd = () => onAddScenario(title, sectionName)
 
   return (
     <Section>
       <Header>
-        <InlineEditInput value={title}>
-          <Title>{title}</Title>
+        <InlineEditInput value={sectionName}>
+          <Title>{sectionName}</Title>
         </InlineEditInput>
         <Count>4 / 10</Count>
       </Header>
@@ -191,7 +198,8 @@ export default ({ scenarios, title }) => {
       ))}
       <Footer>
         <AddStatusIcon className="fa fa-plus-circle" />
-        <Input placeholder="Add a new item" />
+        <Input placeholder="Add a new item" value={title} onChange={onUpdateTitle}/>
+        <button onClick={onAdd}>Add</button>
       </Footer>
     </Section>
   );
