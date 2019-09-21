@@ -12,8 +12,8 @@ export default () => {
       <Button onClick={() => onAddScenario()}>
         Create
       </Button>
-      {_.map(sections, (section, sectionName) => (
-        <Section section={section} title={sectionName} />
+      {_.map(sections, (scenarios, sectionName) => (
+        <Section scenarios={scenarios} title={sectionName} />
       ))}
     </React.Fragment>
   );

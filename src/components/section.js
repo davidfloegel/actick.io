@@ -160,16 +160,14 @@ const Item = ({ id, openItem, isOpen, onClick }) => (
   </ItemItem>
 );
 
-export default ({ sections, title }) => {
+export default ({ scenarios, title }) => {
   const [openItem, setOpenItem] = useState(null);
-
-  const items = [...Array(20).keys()].map(i => i + 1);
 
   return (
     <Section>
       <Header>
-        <InlineEditInput value={"AuColentication"}>
-          <Title>AuColentication</Title>
+        <InlineEditInput value={title}>
+          <Title>{title}</Title>
         </InlineEditInput>
         <Count>4 / 10</Count>
       </Header>
@@ -182,13 +180,13 @@ export default ({ sections, title }) => {
         <Col width="200">Last Updated</Col>
       </ItemsHeader>
 
-      {items.map(i => (
+      {scenarios.map(scenario => (
         <Item
-          key={i}
-          id={i}
+          key={scenario.id}
+          id={scenario.id}
           openItem={openItem}
-          isOpen={openItem === i}
-          onClick={() => (openItem === i ? setOpenItem(null) : setOpenItem(i))}
+          isOpen={openItem === scenario.id}
+          onClick={() => (openItem === scenario.id ? setOpenItem(null) : setOpenItem(scenario.id))}
         />
       ))}
       <Footer>
