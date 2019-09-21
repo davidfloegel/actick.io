@@ -53,6 +53,7 @@ export default class ResizableTextarea extends React.PureComponent {
         placeholder={this.props.placeholder}
         className={"textarea"}
         onChange={this.handleChange}
+        {...this.props}
       />
     );
   }

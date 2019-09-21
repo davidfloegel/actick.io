@@ -50,8 +50,6 @@ export const StateProvider = ({ children }) => {
   };
 
   const onUpdateSectionName = (oldSectionName, newSectionName) => {
-    const itemsForSection = _.filter(data, { section: oldSectionName });
-
     let update = {};
     _.forEach(data, (v, k) => {
       if (v.section === oldSectionName) {
@@ -65,10 +63,39 @@ export const StateProvider = ({ children }) => {
     scenariosRef.update(update);
   };
 
+  const onUpdateItem = (id, updateData) => {
+    let update = {};
+    _.forEach(data, (v, k) => {
+      if (v.id === id) {
+        update[k] = {
+          ...v,
+          ...updateData,
+          lastUpdated: new Date().toUTCString()
+        };
+      }
+    });
+
+    scenariosRef.update(update);
+  };
+
+  const onDeleteItem = id => {
+    let deleteMe = {};
+    _.forEach(data, (v, k) => {
+      if (v.id === id) {
+        deleteMe = k;
+      }
+    });
+
+    console.log(deleteMe);
+    // scenariosRef.remove(deleteMe);
+  };
+
   const context = {
     sections,
     onAddScenario,
-    onUpdateSectionName
+    onUpdateSectionName,
+    onUpdateItem,
+    onDeleteItem
   };
 
   return (
