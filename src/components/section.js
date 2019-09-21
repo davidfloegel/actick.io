@@ -1,11 +1,13 @@
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
+import * as dateFns from "date-fns";
 
 import Button from "./button";
 import Textarea from "./textarea";
 import Input from "./input";
 import InlineEditInput from "./inlineEditInput";
 
+import { STATUS } from "../state";
 
 const Section = styled.div`
   border: 1px solid #eee;
@@ -95,9 +97,9 @@ const DetailsTable = styled.table`
 `;
 
 const StatusIcon = styled.i`
-  ${({ type }) => css`
+  ${({ type, color }) => css`
     font-size: 18px;
-    color: ${type === "success" ? "#2ecc71" : "#e74c3c"};
+    color: ${color};
   `};
 `;
 
@@ -107,21 +109,32 @@ const AddStatusIcon = styled.i`
 
 const Footer = styled(Header)``;
 
-const Item = ({ id, openItem, isOpen, onClick }) => (
+const ICON_FOR_STATUS = {
+  1: { icon: "fa fa-hourglass-half", color: "#f1c40f" },
+  2: { icon: "far fa-stopwatch", color: "#3498db" },
+  3: { icon: "far fa-check-circle", color: "#2ecc71" },
+  4: { icon: "far fa-times-circle", color: "#e74c3c" },
+  5: { icon: "far fa-redo", color: "#9b59b6" }
+};
+
+const Item = ({ id, openItem, isOpen, onClick, scenario }) => (
   <ItemItem isOpen={isOpen}>
     <ItemRow
       onClick={onClick}
       isOpen={isOpen}
       fade={openItem && openItem !== id}
     >
-      <Col width="10">S{id}</Col>
-      <Col width="50" center>
-        <StatusIcon type="success" className="far fa-check-circle" />
+      <Col width="10">{id}</Col>
+      <Col width="50" style={{ textAlign: "center" }}>
+        <StatusIcon
+          color={ICON_FOR_STATUS[scenario.status].color}
+          className={ICON_FOR_STATUS[scenario.status].icon}
+        />
       </Col>
-      <Col width="auto">
-        User can create an account and receives confirmation email
+      <Col width="auto">{scenario.description}</Col>
+      <Col width="200">
+        {dateFns.format(new Date(scenario.lastUpdated), "dd.MM.yyyy HH:mm")}
       </Col>
-      <Col width="200">Just Now</Col>
     </ItemRow>
     {isOpen && (
       <Details>
@@ -186,7 +199,12 @@ export default ({ scenarios, title }) => {
           id={scenario.id}
           openItem={openItem}
           isOpen={openItem === scenario.id}
-          onClick={() => (openItem === scenario.id ? setOpenItem(null) : setOpenItem(scenario.id))}
+          onClick={() =>
+            openItem === scenario.id
+              ? setOpenItem(null)
+              : setOpenItem(scenario.id)
+          }
+          scenario={scenario}
         />
       ))}
       <Footer>
