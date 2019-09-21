@@ -94,8 +94,8 @@ export const StateProvider = ({ reducer, initialState, children }) => {
       }
     });
 
-    console.log(deleteMe);
-    // scenariosRef.remove(deleteMe);
+    const t = scenariosRef.child(deleteMe);
+    t.remove();
   };
 
   const context = {

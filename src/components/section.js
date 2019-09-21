@@ -251,7 +251,10 @@ export default ({
           }
           scenario={scenario}
           onUpdateItem={d => onUpdateItem(scenario.id, d)}
-          onDelete={() => onDeleteItem(scenario.id)}
+          onDelete={() => {
+            onDeleteItem(scenario.id);
+            setOpenItem(null);
+          }}
         />
       ))}
       <Footer>
