@@ -2,17 +2,9 @@ import _ from "lodash";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { scenariosRef } from "../config/firebase";
 
-const STATUS = {
-  1: "To do",
-  2: "In Test",
-  3: "Passed",
-  4: "Failed",
-  5: "Retest"
-};
-
 export const StateContext = createContext();
 
-export const StateProvider = ({ reducer, initialState, children }) => {
+export const StateProvider = ({ children }) => {
   const [data, setData] = useState();
   const [sections, setSections] = useState([]);
   const [totScenarios, setTotScenarios] = useState(0);
