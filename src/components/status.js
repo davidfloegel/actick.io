@@ -1,18 +1,18 @@
-import _ from 'lodash'
-import React, { useState } from 'react';
-import styled, { css } from 'styled-components';
+import _ from "lodash";
+import React, { useState } from "react";
+import styled, { css } from "styled-components";
 import {
   Dropdown,
   DropdownItem,
-  DropdownMenu,
-} from 'styled-dropdown-component';
+  DropdownMenu
+} from "styled-dropdown-component";
 
 const ICON_FOR_STATUS = {
   1: { icon: "fa fa-hourglass-half", color: "#f1c40f" },
-  2: { icon: "far fa-stopwatch", color: "#3498db" },
+  2: { icon: "fa fa-stopwatch", color: "#3498db" },
   3: { icon: "far fa-check-circle", color: "#2ecc71" },
   4: { icon: "far fa-times-circle", color: "#e74c3c" },
-  5: { icon: "far fa-redo", color: "#9b59b6" }
+  5: { icon: "fa fa-redo", color: "#9b59b6" }
 };
 
 const STATUS = {
@@ -22,6 +22,10 @@ const STATUS = {
   4: "Failed",
   5: "Retest"
 };
+
+const Trigger = styled(DropdownItem)`
+  border: 1px solid red;
+`;
 
 const Container = styled.div`
   display: flex;
@@ -36,25 +40,29 @@ const StatusIcon = styled.i`
 
 const Text = styled.span`
   margin-left: 10px;
-`
+`;
 
-const Status = ({ status }) => {
-  const [hidden, setHidden] = useState(true)
+const Status = ({ onChange, status }) => {
+  const [hidden, setHidden] = useState(true);
 
-  const onToggle = e => setHidden(!hidden)
+  const onToggle = e => setHidden(!hidden);
 
-  console.log(hidden)
   return (
     <Dropdown>
-      <DropdownItem onClick={onToggle}>
-        <StatusIcon
-          color={ICON_FOR_STATUS[status].color}
-          className={ICON_FOR_STATUS[status].icon}
-        />
-      </DropdownItem>
+      <StatusIcon
+        onClick={onToggle}
+        color={ICON_FOR_STATUS[status].color}
+        className={ICON_FOR_STATUS[status].icon}
+      />
       <DropdownMenu hidden={hidden} toggle={onToggle}>
         {_.map(STATUS, (item, i) => (
-          <DropdownItem key={i}>
+          <DropdownItem
+            key={i}
+            onClick={() => {
+              onChange(i);
+              onToggle();
+            }}
+          >
             <Container>
               <StatusIcon
                 color={ICON_FOR_STATUS[i].color}
@@ -66,7 +74,7 @@ const Status = ({ status }) => {
         ))}
       </DropdownMenu>
     </Dropdown>
-  )
-}
+  );
+};
 
-export default Status
+export default Status;

@@ -7,7 +7,7 @@ import Button from "./button";
 import Textarea from "./textarea";
 import InlineEditInput from "./inlineEditInput";
 import AddNewItem from "./addNewItem";
-import Status from './status'
+import Status from "./status";
 
 const Section = styled.div`
   border: 1px solid #eee;
@@ -96,9 +96,7 @@ const DetailsTable = styled.table`
   }
 `;
 
-
 const Footer = styled(Header)``;
-
 
 const Textfield = ({ initialValue, onSave, ...rest }) => {
   const [value, setValue] = useState(initialValue);
@@ -125,17 +123,18 @@ const Item = ({
   onDelete
 }) => (
   <ItemItem isOpen={isOpen}>
-    <ItemRow
-      isOpen={isOpen}
-      fade={openItem && openItem !== id}
-    >
+    <ItemRow isOpen={isOpen} fade={openItem && openItem !== id}>
       <Col width="10">{id}</Col>
-      <Col width="50" style={{ textAlign: "center" }}>
-        <Status status={scenario.status} />
-        
+      <Col width="65" style={{ textAlign: "center" }}>
+        <Status
+          onChange={i => onUpdateItem({ status: i })}
+          status={scenario.status}
+        />
       </Col>
-      
-      <Col width="auto" onClick={onClick}>{scenario.description}</Col>
+
+      <Col width="auto" onClick={onClick}>
+        {scenario.description}
+      </Col>
       <Col width="200">
         {dateFns.format(new Date(scenario.lastUpdated), "dd.MM.yyyy HH:mm")}
       </Col>
@@ -217,7 +216,7 @@ export default ({
       </Header>
       <ItemsHeader>
         <Col width="10">#</Col>
-        <Col width="50" center>
+        <Col width="65" center>
           Status
         </Col>
         <Col width="auto">Description</Col>
