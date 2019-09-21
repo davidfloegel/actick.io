@@ -2,19 +2,6 @@ import _ from "lodash";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { scenariosRef } from "../config/firebase";
 
-<<<<<<< HEAD
-=======
-export const StateContext = createContext();
-
-// const newSection = {
-//   title: 'Amazing',
-//   description: '',
-//   items: [
-//     { title}
-//   ],
-// }
-
->>>>>>> 31b28a9007a13edb694e3026563acc80f5b01aa8
 const STATUS = {
   1: "To do",
   2: "In Test",
@@ -23,23 +10,7 @@ const STATUS = {
   5: "Retest"
 };
 
-<<<<<<< HEAD
 export const StateContext = createContext();
-=======
-const newScenario = {
-  id: "S1",
-  status: 1,
-  description: "Description",
-  lastUpdated: new Date().toUTCString(),
-  steps: "Free text",
-  testData: "Free text test data",
-  expectedOutcome: "beautiful",
-  actualOutcome: "awful",
-  section: "Amazing Section",
-  projectId: "2"
-};
->>>>>>> 31b28a9007a13edb694e3026563acc80f5b01aa8
-
 
 export const StateProvider = ({ reducer, initialState, children }) => {
   const [sections, setSections] = useState([]);
