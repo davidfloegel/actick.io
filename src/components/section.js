@@ -3,6 +3,8 @@ import styled, { css } from "styled-components";
 
 import Button from "./button";
 import Textarea from "./textarea";
+import Input from "./input";
+import InlineEditInput from "./inlineEditInput";
 
 const Section = styled.div`
   border: 1px solid #eee;
@@ -54,6 +56,15 @@ const ItemsHeader = styled.div`
   }
 `;
 
+const ItemItem = styled.div`
+  ${({ isOpen }) =>
+    isOpen &&
+    css`
+      box-shadow: 0px 0px 17px -10px rgba(0, 0, 0, 0.63);
+      border-radius: 2px;
+    `};
+`;
+
 const ItemRow = styled.div`
   height: 50px;
   display: flex;
@@ -89,10 +100,14 @@ const StatusIcon = styled.i`
   `};
 `;
 
+const AddStatusIcon = styled.i`
+  margin-right: 15px;
+`;
+
 const Footer = styled(Header)``;
 
 const Item = ({ id, openItem, isOpen, onClick }) => (
-  <React.Fragment>
+  <ItemItem isOpen={isOpen}>
     <ItemRow
       onClick={onClick}
       isOpen={isOpen}
@@ -141,7 +156,7 @@ const Item = ({ id, openItem, isOpen, onClick }) => (
         <Button type="dangerLink">Delete Scenario</Button>
       </Details>
     )}
-  </React.Fragment>
+  </ItemItem>
 );
 
 export default () => {
@@ -152,7 +167,9 @@ export default () => {
   return (
     <Section>
       <Header>
-        <Title>AuColentication</Title>
+        <InlineEditInput value={"AuColentication"}>
+          <Title>AuColentication</Title>
+        </InlineEditInput>
         <Count>4 / 10</Count>
       </Header>
       <ItemsHeader>
@@ -173,7 +190,10 @@ export default () => {
           onClick={() => (openItem === i ? setOpenItem(null) : setOpenItem(i))}
         />
       ))}
-      <Footer>Add a new Item</Footer>
+      <Footer>
+        <AddStatusIcon className="fa fa-plus-circle" />
+        <Input placeholder="Add a new item" />
+      </Footer>
     </Section>
   );
 };
