@@ -186,7 +186,7 @@ export default ({ scenarios, sectionName }) => {
   return (
     <Section>
       <Header>
-        <InlineEditInput value={sectionName}>
+        <InlineEditInput value={sectionName} onSave={v => alert(v)}>
           <Title>{sectionName}</Title>
         </InlineEditInput>
         <Count>4 / 10</Count>
