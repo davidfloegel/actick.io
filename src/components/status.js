@@ -31,11 +31,12 @@ const StatusIcon = styled.i`
   ${({ type, color }) => css`
     font-size: 18px;
     color: ${color};
-    margin-right: 10px;
   `};
 `;
 
-
+const Text = styled.span`
+  margin-left: 10px;
+`
 
 const Status = ({ status }) => {
   const [hidden, setHidden] = useState(true)
@@ -53,14 +54,13 @@ const Status = ({ status }) => {
       </DropdownItem>
       <DropdownMenu hidden={hidden} toggle={onToggle}>
         {_.map(STATUS, (item, i) => (
-          <DropdownItem>
+          <DropdownItem key={i}>
             <Container>
               <StatusIcon
                 color={ICON_FOR_STATUS[i].color}
                 className={ICON_FOR_STATUS[i].icon}
               />
-              {STATUS[i]}
-
+              <Text>{STATUS[i]}</Text>
             </Container>
           </DropdownItem>
         ))}
