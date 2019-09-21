@@ -1,6 +1,6 @@
 import React from "react";
 import styled, { ThemeProvider } from "styled-components";
-
+import { StateProvider } from './state';  
 import GlobalStyle from "./theme/global";
 import theme from "./theme/theme";
 
@@ -24,19 +24,21 @@ const Title = styled.h1`
 
 function App() {
   return (
-    <ThemeProvider theme={theme}>
-      <React.Fragment>
-        <GlobalStyle />
-        <Layout>
-          <Navbar />
-          <Container>
-            <Title>Bookaspace v0.1.0</Title>
+    <StateProvider>
+      <ThemeProvider theme={theme}>
+        <React.Fragment>
+          <GlobalStyle />
+          <Layout>
+            <Navbar />
+            <Container>
+              <Title>Bookaspace v0.1.0</Title>
 
-            <Listing />
-          </Container>
-        </Layout>
-      </React.Fragment>
-    </ThemeProvider>
+              <Listing />
+            </Container>
+          </Layout>
+        </React.Fragment>
+      </ThemeProvider>
+    </StateProvider>
   );
 }
 
