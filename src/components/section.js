@@ -1,3 +1,4 @@
+import _ from "lodash";
 import React, { useState } from "react";
 import styled, { css } from "styled-components";
 import * as dateFns from "date-fns";
@@ -144,6 +145,16 @@ const Item = ({
         <DetailsTable>
           <tbody>
             <tr>
+              <th>Description</th>
+              <td>
+                <Textfield
+                  initialValue={scenario.description}
+                  onSave={v => onUpdateItem({ description: v })}
+                  placeholder="Enter a scenario description..."
+                />
+              </td>
+            </tr>
+            <tr>
               <th>Steps</th>
               <td>
                 <Textfield
@@ -212,7 +223,10 @@ export default ({
         >
           <Title>{sectionName}</Title>
         </InlineEditInput>
-        <Count>4 / 10</Count>
+        <Count>
+          {_.filter(scenarios, { status: "3" }).length} /{" "}
+          {(scenarios || []).length}
+        </Count>
       </Header>
       <ItemsHeader>
         <Col width="10">#</Col>

@@ -1,10 +1,12 @@
 import _ from "lodash";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { scenariosRef } from "../config/firebase";
+import Spinner from "../components/spinner";
 
 export const StateContext = createContext();
 
 export const StateProvider = ({ children }) => {
+  const [loading, setLoading] = useState(true);
   const [data, setData] = useState();
   const [sections, setSections] = useState([]);
   const [totScenarios, setTotScenarios] = useState(0);
@@ -27,6 +29,7 @@ export const StateProvider = ({ children }) => {
         const sections = _.groupBy(value, "section");
         setSections(sections);
         setData(result);
+        setLoading(false);
       });
 
     unsubscribe();
@@ -98,6 +101,9 @@ export const StateProvider = ({ children }) => {
     onDeleteItem
   };
 
+  if (loading) {
+    return <Spinner />;
+  }
   return (
     <StateContext.Provider value={context}>{children}</StateContext.Provider>
   );
