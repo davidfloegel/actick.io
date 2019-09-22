@@ -21,6 +21,10 @@ const getProjectsLS = () => {
 const addToLocalStorage = newProject => {
   const projects = getProjectsLS();
 
+  if (_.find(projects, { id: newProject.id })) {
+    return projects;
+  }
+
   const updated = [newProject, ...projects];
 
   localStorage.setItem(lsID, JSON.stringify(updated));
@@ -71,7 +75,10 @@ export const StateProvider = ({ children }) => {
           return null;
         }
 
-        setOneProject(_.first(_.toArray(res)));
+        const p = _.first(_.toArray(res));
+        setOneProject(p);
+
+        addToLocalStorage(p);
       });
   };
 
