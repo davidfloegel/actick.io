@@ -1,11 +1,15 @@
 import React from "react";
 import styled, { ThemeProvider } from "styled-components";
-import { StateProvider } from './state';  
+import { BrowserRouter, Route, Link } from "react-router-dom";
+import { StateProvider } from "./state";
+import { StateProvider as ProjectsStateProvider } from "./state/projects";
 import GlobalStyle from "./theme/global";
 import theme from "./theme/theme";
 
 import Navbar from "./components/navbar";
 import Listing from "./pages/listing";
+
+import Welcome from "./pages/welcome";
 
 const Layout = styled.div`
   padding-top: 100px;
@@ -24,21 +28,23 @@ const Title = styled.h1`
 
 function App() {
   return (
-    <StateProvider>
-      <ThemeProvider theme={theme}>
-        <React.Fragment>
-          <GlobalStyle />
-          <Layout>
-            <Navbar />
-            <Container>
-              <Title>Bookaspace v0.1.0</Title>
+    <BrowserRouter>
+      <StateProvider>
+        <ProjectsStateProvider>
+          <ThemeProvider theme={theme}>
+            <React.Fragment>
+              <GlobalStyle />
+              <Layout>
+                <Navbar />
 
-              <Listing />
-            </Container>
-          </Layout>
-        </React.Fragment>
-      </ThemeProvider>
-    </StateProvider>
+                <Route exact path="/" component={Welcome} />
+                <Route exact path="/p/:id" component={Listing} />
+              </Layout>
+            </React.Fragment>
+          </ThemeProvider>
+        </ProjectsStateProvider>
+      </StateProvider>
+    </BrowserRouter>
   );
 }
 

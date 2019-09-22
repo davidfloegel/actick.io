@@ -1,7 +1,6 @@
 import _ from "lodash";
 import React, { createContext, useContext, useEffect, useState } from "react";
 import { scenariosRef } from "../config/firebase";
-import Spinner from "../components/spinner";
 
 export const StateContext = createContext();
 
@@ -11,12 +10,17 @@ export const StateProvider = ({ children }) => {
   const [sections, setSections] = useState([]);
   const [totScenarios, setTotScenarios] = useState(0);
 
-  useEffect(() => {
+  const loadScenarios = projectID => {
+    const projectScenariosRef = scenariosRef
+      .orderByChild("projectId")
+      .equalTo(projectID);
+
     const unsubscribe = () =>
-      scenariosRef.on("value", snapshot => {
+      projectScenariosRef.on("value", snapshot => {
         const result = snapshot.val();
 
         if (result === null) {
+          setLoading(false);
           return null;
         }
 
@@ -33,7 +37,7 @@ export const StateProvider = ({ children }) => {
       });
 
     unsubscribe();
-  }, []);
+  };
 
   const onAddScenario = (description, sectionName) => {
     const newScenario = {
@@ -94,16 +98,15 @@ export const StateProvider = ({ children }) => {
   };
 
   const context = {
+    loading,
     sections,
+    loadScenarios,
     onAddScenario,
     onUpdateSectionName,
     onUpdateItem,
     onDeleteItem
   };
 
-  if (loading) {
-    return <Spinner />;
-  }
   return (
     <StateContext.Provider value={context}>{children}</StateContext.Provider>
   );

@@ -1,7 +1,7 @@
-import dotenv from 'dotenv'
-import firebase from 'firebase'
+import dotenv from "dotenv";
+import firebase from "firebase";
 
-dotenv.config()
+dotenv.config();
 
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -17,4 +17,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const databaseRef = firebase.database().ref();
 
-export const scenariosRef = databaseRef.child('scenarios')
+export const projectsRef = databaseRef.child("projects");
+
+export const scenariosRef = databaseRef.child("scenarios");
