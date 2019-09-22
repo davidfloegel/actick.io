@@ -59,7 +59,9 @@ export default ({ match }) => {
         />
       ))}
 
-      <CreateSection onSave={v => onAddScenario("First Scenario...", v)} />
+      <CreateSection
+        onSave={v => onAddScenario("First Scenario...", match.params.id, v)}
+      />
     </Container>
   );
 };

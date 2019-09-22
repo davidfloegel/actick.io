@@ -39,7 +39,7 @@ export const StateProvider = ({ children }) => {
     unsubscribe();
   };
 
-  const onAddScenario = (description, sectionName) => {
+  const onAddScenario = (description, projectId, sectionName) => {
     const newScenario = {
       id: `S${totScenarios + 1}`,
       status: 1,
@@ -50,7 +50,7 @@ export const StateProvider = ({ children }) => {
       expectedOutcome: "",
       actualOutcome: "",
       section: sectionName,
-      projectId: "1"
+      projectId: projectId
     };
 
     scenariosRef.push().set(newScenario);
