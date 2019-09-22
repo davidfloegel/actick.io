@@ -210,7 +210,8 @@ export default ({
   sectionName,
   onUpdateSectionName,
   onUpdateItem,
-  onDeleteItem
+  onDeleteItem,
+  projectId
 }) => {
   const [openItem, setOpenItem] = useState(null);
 
@@ -257,7 +258,7 @@ export default ({
         />
       ))}
       <Footer>
-        <AddNewItem sectionName={sectionName} />
+        <AddNewItem projectId={projectId} sectionName={sectionName} />
       </Footer>
     </Section>
   );

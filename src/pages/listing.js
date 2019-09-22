@@ -56,6 +56,7 @@ export default ({ match }) => {
           onUpdateSectionName={onUpdateSectionName}
           onUpdateItem={onUpdateItem}
           onDeleteItem={onDeleteItem}
+          projectId={match.params.id}
         />
       ))}
 

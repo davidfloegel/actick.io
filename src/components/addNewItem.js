@@ -1,20 +1,20 @@
-import React, { Fragment, useState } from 'react';
-import styled from 'styled-components';
-import Input from './input';
-import { useStateValue } from '../state'
+import React, { Fragment, useState } from "react";
+import styled from "styled-components";
+import Input from "./input";
+import { useStateValue } from "../state";
 
 const AddStatusIcon = styled.i`
   margin-right: 15px;
 `;
 
-const AddNewItem = ({ sectionName }) => {
-  const { onAddScenario } = useStateValue()
-  const [description, setDescription] = useState('');
+const AddNewItem = ({ projectId, sectionName }) => {
+  const { onAddScenario } = useStateValue();
+  const [description, setDescription] = useState("");
 
   const onTriggerSave = () => {
-    onAddScenario(description, sectionName)
-    setDescription('')
-  }
+    onAddScenario(description, projectId, sectionName);
+    setDescription("");
+  };
 
   const detectEnter = e => {
     if (e.which === 13 || e.keyCode === 13) {
@@ -22,7 +22,7 @@ const AddNewItem = ({ sectionName }) => {
     }
   };
 
-  const onUpdateDescription = e => setDescription(e.target.value)
+  const onUpdateDescription = e => setDescription(e.target.value);
 
   return (
     <Fragment>
@@ -34,7 +34,7 @@ const AddNewItem = ({ sectionName }) => {
         onKeyPress={detectEnter}
       />
     </Fragment>
-  )
-}
+  );
+};
 
-export default AddNewItem
+export default AddNewItem;
