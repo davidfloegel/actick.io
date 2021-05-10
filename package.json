@@ -8,7 +8,7 @@
     "express": "^4.17.1",
     "firebase": "^6.6.2",
     "heroku-ssl-redirect": "^0.0.4",
-    "lodash": "^4.17.15",
+    "lodash": "^4.17.21",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-router-dom": "^5.0.1",
